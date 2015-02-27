@@ -1,15 +1,15 @@
 {**
 * EU Legal - Better security for German and EU merchants.
 *
-* @version   : 1.2.0
-* @date      : 2015 02 25
+* @version   : 1.0.2
+* @date      : 2014 08 26
 * @author    : Markus Engel/Chris Gurk @ Onlineshop-Module.de | George June/Alexey Dermenzhy @ Silbersaiten.de
-* @copyright : 2015 Onlineshop-Module.de | 2014 Silbersaiten.de
+* @copyright : 2014 Onlineshop-Module.de | 2014 Silbersaiten.de
 * @contact   : info@onlineshop-module.de | info@silbersaiten.de
 * @homepage  : www.onlineshop-module.de | www.silbersaiten.de
 * @license   : http://opensource.org/licenses/osl-3.0.php
 * @changelog : see changelog.txt
-* @compatibility : PS == 1.6.0.12
+* @compatibility : PS == 1.6.0.9
 *}
 {if !$opc}
 	{capture name=path}{l s='Shipping:' mod='eu_legal'}{/capture}
@@ -72,7 +72,7 @@
 															<strong>{$carrier.instance->name|escape:'htmlall':'UTF-8'}</strong>
 														{/foreach}
 														{if isset($carrier.instance->delay[$cookie->id_lang])}
-															<br />{l s='Delivery time:'}&nbsp;{$carrier.instance->delay[$cookie->id_lang]|escape:'htmlall':'UTF-8'}
+															<br />{l s='Delivery time:' mod='eu_legal'}&nbsp;{$carrier.instance->delay[$cookie->id_lang]|escape:'htmlall':'UTF-8'}
 														{/if}
 													{/if}
 													{if count($option_list) > 1}
@@ -84,7 +84,7 @@
 																<span class="best_grade best_grade_speed">{l s='The fastest' mod='eu_legal'}</span>
 															{/if}
 														{else if $option.is_best_price}
-																<span class="best_grade best_grade_price">{l s='The best price' mod='eu_legal'}</span>
+															<span class="best_grade best_grade_price">{l s='The best price' mod='eu_legal'}</span>
 														{/if}
 													{/if}
 												</td>
@@ -131,9 +131,9 @@
 																{$first.instance->delay[$cookie->id_lang]|escape:'htmlall':'UTF-8'}
 																&nbsp;
 																{if count($first.product_list) <= 1}
-																	({l s='Product concerned:' mod='eu_legal'}
+																	({l s='For this product:' mod='eu_legal'}
 																{else}
-																	({l s='Products concerned:' mod='eu_legal'}
+																	({l s='For these products:' mod='eu_legal'}
 																{/if}
 															{/strip}
 															{foreach $first.product_list as $product}
@@ -202,9 +202,9 @@
 																	{$carrier.instance->delay[$cookie->id_lang]|escape:'htmlall':'UTF-8'}
 																	&nbsp;
 																	{if count($first.product_list) <= 1}
-																({l s='Product concerned:' mod='eu_legal'}
+																		({l s='For this product:' mod='eu_legal'}
 																	{else}
-																({l s='Products concerned:' mod='eu_legal'}
+																		({l s='For these products:' mod='eu_legal'}
 																	{/if}
 																{/strip}
 																{foreach $carrier.product_list as $product}
@@ -246,7 +246,7 @@
 								</div> <!-- end delivery_option -->
 							{/foreach}
 						</div> <!-- end delivery_options -->
-						<div class="hook_extracarrier" id="HOOK_EXTRACARRIER_{$id_address|escape:'htmlall'}">
+						<div class="hook_extracarrier" id="HOOK_EXTRACARRIER_{$id_address}">
 							{if isset($HOOK_EXTRACARRIER_ADDR) &&  isset($HOOK_EXTRACARRIER_ADDR.$id_address)}{$HOOK_EXTRACARRIER_ADDR.$id_address}{/if}
 						</div>
 						{foreachelse}
@@ -321,16 +321,18 @@
 				{/if}
 				{/if}
 			{/if}
-			{if (!isset($PS_EU_PAYMENT_API) || !$PS_EU_PAYMENT_API) && $conditions AND $cms_id}
+			{if $conditions AND $cms_id}
 				{if $opc}
 					<hr style="" />
 				{/if}
-				<p class="carrier_title">{l s='Terms of service' mod='eu_legal'}</p>
-				<p class="checkbox">
-					<input type="checkbox" name="cgv" id="cgv" value="1" {if $checkedTOS}checked="checked"{/if} />
-					<label for="cgv">{l s='I agree to the terms of service and will adhere to them unconditionally.' mod='eu_legal'}</label>
-					<a href="{$link_conditions|escape:'html':'UTF-8'}" class="iframe" rel="nofollow">{l s='(Read the Terms of Service)' mod='eu_legal'}</a>
-				</p>
+				{if (!isset($PS_EU_PAYMENT_API) || !$PS_EU_PAYMENT_API) && $conditions AND $cms_id}
+					<p class="carrier_title">{l s='Terms of service' mod='eu_legal'}</p>
+					<p class="checkbox">
+						<input type="checkbox" name="cgv" id="cgv" value="1" {if $checkedTOS}checked="checked"{/if} />
+						<label for="cgv">{l s='I agree to the terms of service and will adhere to them unconditionally.' mod='eu_legal'}</label>
+						<a href="{$link_conditions|escape:'html':'UTF-8'}" class="iframe" rel="nofollow">{l s='(Read the Terms of Service)' mod='eu_legal'}</a>
+					</p>
+				{/if}
 			{/if}
 		</div> <!-- end delivery_options_address -->
 		{if !$opc}
