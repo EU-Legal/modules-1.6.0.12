@@ -67,7 +67,7 @@ class EU_Legal extends Module
 		// module compliancy: only for exactly one PS version
 		$this->ps_versions_compliancy = array(
 			'min' => '1.6.0.12',
-			'max' => '1.6.0.12'
+			'max' => '1.6.0.13'
 		);
 
 		// bootstrap baqckoffice functionality
@@ -142,6 +142,18 @@ class EU_Legal extends Module
 				'templates' => array()
 			),
 		);
+
+		// modules not compatible with EU Legal
+		$this->modules_not_compatible = array(
+			/*'bankwire',
+			'cheque',*/
+			'ganalytics',
+			'avalaratax',
+			'attributewizardpro',
+			'crossselling',
+			'carriercompare',
+		);
+
 
 		// available cms pages
 		// [filename => configuration]
